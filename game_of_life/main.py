@@ -1,29 +1,12 @@
-""" Game rules:
-    Any limep cell with 0 or 1 live neighbors becomes dead, 
-    
-        because of underpopulation
-    Any live cell with 2 or 3 live neighbors stays alive, 
-        because its neighborhood is just right
-    Any live cell with more than 3 live neighbors becomes dead, 
-        because of overpopulation
-    Any dead cell with exactly 3 live neighbors becomes alive, 
-        by reproduction
-
+""" 
     First Milestone:
-        Build a data structure to store the board state
-        “Pretty-print” the board to the terminal
-        Given a starting board state, calculate the next one
-        Run the game forever
-
-    Then some extensions:
-    
         Save interesting starting positions to files and add the ability to reload them into your Life
         Improve the User Interface
         Change the rules of Life
-
 """
 from pprint import pprint as pp
 from random import random
+import time 
 
 def random_state(cols, rows, freq):
     arr = []
@@ -41,42 +24,59 @@ def random_state(cols, rows, freq):
 
 
 def next_state(init_state):
-    """
-        TO BORN any dead cell has to have 3 live neighbors
-        [0, 0, 1, 0, 0] , [0, 0, 1, 0, 0] 
-        [0, 0, 1, 0, 0]
-        [0, 0, 1, 0, 0]
-IF alive:
-    if count(1) <= 1:
-        alive is dead 
-
-        [0, 0, 0, 0, 0] 
-        [0, 1, 1, 1, 0]
-        [0, 0, 0, 0, 0]
-        If any live (#) cell has 0 or 1 live neighbors it DIES (" ")
-        If any live (#) cell has 2 or 3 live neighbors it stays ALIVE 
-        If any live (#) cell has more than 3 live neighbors stays ALIVE
-            by reproduction
-        If any dead cell (" ") has ecactly 3 live neighbors it becomes
-            ALIVE ("#")
-        
-        If any dead cell.neighbors == 3:
-            it becomes alive 
-        If live cell have 0 or 1 live neighbors:
-            cell becomes dead 
-        If live cell have 2 or 3 live neighbors:
-            it stays alive 
-        If live cell have more than 3 live neighbors:
-            reproduction 
-
-        I should create a new new_state
-
     new_state = []
-    for row in init_state:
-        return 
-        adjacent_state = []
-        find all values TODO:  
-    """
+    
+    for x in range(0, len(init_state)):
+        new_state_row = []
+        for y in range(0, len(init_state[0])):
+            current_cell_value= init_state[x][y]
+            next_elements = adjacent_elements(init_state, x, y)
+            if current_cell_value == 0 and next_elements.count(1) == 3:
+                new_state_row.append(1)
+            elif current_cell_value == 1:
+                if 0 <= next_elements.count(1) <= 1:
+                    new_state_row.append(0)
+                if 2 <= next_elements.count(1) <= 3:
+                    new_state_row.append(1)
+                if next_elements.count(1) > 3:
+                    new_state_row.append(0)
+            else:
+                new_state_row.append(init_state[x][y])
+        new_state.append(new_state_row)
+    return new_state 
+
+
+def is_valid_pos(x, y, col_length, row_length):
+    if x < 0 or y < 0 or x > col_length - 1 or y > row_length - 1:
+        return 0 
+    return 1
+
+
+def adjacent_elements(init_state, x, y):
+    col_length = len(init_state)
+    row_length = len(init_state[0])
+
+    adj_arr = [] 
+
+    if is_valid_pos(x-1, y-1, col_length, row_length):
+        adj_arr.append(init_state[x-1][y-1])
+    if is_valid_pos(x-1, y, col_length, row_length):
+        adj_arr.append(init_state[x-1][y])
+    if is_valid_pos(x-1, y+1, col_length, row_length):
+        adj_arr.append(init_state[x-1][y+1])
+    if is_valid_pos(x, y-1, col_length, row_length):
+        adj_arr.append(init_state[x][y-1])
+    if is_valid_pos(x, y+1, col_length, row_length):
+        adj_arr.append(init_state[x][y+1])
+    if is_valid_pos(x+1, y-1, col_length, row_length):
+        adj_arr.append(init_state[x+1][y-1])
+    if is_valid_pos(x+1, y, col_length, row_length):
+        adj_arr.append(init_state[x+1][y])
+    if is_valid_pos(x+1, y+1, col_length, row_length):
+        adj_arr.append(init_state[x+1][y+1])
+
+    return adj_arr
+
 
 def render(board_state):
     print("----------GAME OF LIFE----------")
@@ -90,6 +90,14 @@ def render(board_state):
         pp(arr)
         arr.clear()
 
-a_random_state = random_state(5, 8, 0.5)
-render(a_random_state)
-render(random_state(12, 30, 0.5))
+
+if __name__=="__main__":
+    a_random_state = random_state(15, 25, 0.5)
+    #a_random_state = [[0, 0, 0, 0, 1, 1, 0, 0, 0, 1, 1, 0, 0, 0, 0], [0, 0, 0, 1, 0, 0, 1, 0, 1, 0, 0, 1, 0, 0, 0], [0, 0, 0, 1, 0, 1, 1, 0, 1, 1, 0, 1, 0, 0, 0], [0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0], [0, 0, 0, 0, 1, 0, 1, 0, 1, 0, 1, 0, 0, 0, 0], [0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0],[0, 0, 0, 0, 1, 1, 0, 0, 0, 1, 1, 0, 0, 0, 0,], [0, 0, 0, 1, 0, 0, 1, 0, 1, 0, 0, 1, 0, 0, 0], [0, 0, 0, 1, 0, 1, 1, 0, 1, 1, 0, 1, 0, 0, 0]]
+    render(a_random_state)
+    ns = next_state(a_random_state)
+    time.sleep(1)
+    while True:
+        render(ns)
+        time.sleep(0.3)
+        ne = next_state(ns)

@@ -10,9 +10,9 @@ def test_failed(wt, expected_next_state, actual_next_state):
 
 if __name__ == "__main__":
     init_state1 = [
-        [0,0,0],
-        [0,0,0],
-        [0,0,0]
+        [1,0,0],
+        [0,1,0],
+        [1,0,1]
     ]
     expected_next_state1 = [
         [0,0,0],
@@ -25,8 +25,6 @@ if __name__ == "__main__":
         print("PASSED 1")
     else:
         test_failed(1, expected_next_state1, actual_next_state1)
-    # TEST 2: dead cells with exactly 3 neighbors
-    # should come alive.
     init_state2 = [
         [0,0,1],
         [0,1,1],
@@ -42,4 +40,4 @@ if __name__ == "__main__":
     if expected_next_state2 == actual_next_state2:
         print("PASSED 2")
     else:
-        test_failed(2, expected_next_state1, actual_next_state1)
+        test_failed(2, expected_next_state2, actual_next_state2)
