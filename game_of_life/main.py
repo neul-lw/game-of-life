@@ -1,9 +1,10 @@
-""" 
-    First Milestone:
-        Save interesting starting positions to files and add the ability to reload them into your Life
+"""     
+        Add ability to save toads 
         Improve the User Interface
+        Ask person to if they wanna keep the toad save
         Change the rules of Life
 """
+
 from pprint import pprint as pp
 from random import random
 import time 
@@ -120,7 +121,6 @@ def run_game(board: list, duration: int):
 
 if __name__=="__main__":
     a_random_state = random_state(15, 25, 0.5)
-    toad_path = '/home/neul/Documents/CS/Python/Advance-Beginners/game_of_life/toads/toad.txt'
-    initial_state = load_board_state(toad_path)
-    #a_random_state = [[0, 0, 0, 0, 1, 1, 0, 0, 0, 1, 1, 0, 0, 0, 0], [0, 0, 0, 1, 0, 0, 1, 0, 1, 0, 0, 1, 0, 0, 0], [0, 0, 0, 1, 0, 1, 1, 0, 1, 1, 0, 1, 0, 0, 0], [0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0], [0, 0, 0, 0, 1, 0, 1, 0, 1, 0, 1, 0, 0, 0, 0], [0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0],[0, 0, 0, 0, 1, 1, 0, 0, 0, 1, 1, 0, 0, 0, 0,], [0, 0, 0, 1, 0, 0, 1, 0, 1, 0, 0, 1, 0, 0, 0], [0, 0, 0, 1, 0, 1, 1, 0, 1, 1, 0, 1, 0, 0, 0]]
+    board_path = '/home/neul/Documents/CS/Python/Advance-Beginners/game_of_life/boards/toad.txt'
+    initial_state = load_board_state(board_path)
     run_game(initial_state, 1)
