@@ -78,6 +78,22 @@ def adjacent_elements(init_state, x, y):
     return adj_arr
 
 
+def load_board_state(path):
+    arr = []
+    with open(path, 'r') as f:
+        f = f.readlines()
+        f = [line.replace("\n", "") for line in f]
+        for line in f:
+            row = []
+            for n in line:
+                n = int(n)
+                row.append(n)
+            arr.append(row)
+    print(arr)
+    return arr 
+
+
+
 def render(board_state):
     print("----------GAME OF LIFE----------")
     for row in board_state:
@@ -91,13 +107,20 @@ def render(board_state):
         arr.clear()
 
 
-if __name__=="__main__":
-    a_random_state = random_state(15, 25, 0.5)
-    #a_random_state = [[0, 0, 0, 0, 1, 1, 0, 0, 0, 1, 1, 0, 0, 0, 0], [0, 0, 0, 1, 0, 0, 1, 0, 1, 0, 0, 1, 0, 0, 0], [0, 0, 0, 1, 0, 1, 1, 0, 1, 1, 0, 1, 0, 0, 0], [0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0], [0, 0, 0, 0, 1, 0, 1, 0, 1, 0, 1, 0, 0, 0, 0], [0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0],[0, 0, 0, 0, 1, 1, 0, 0, 0, 1, 1, 0, 0, 0, 0,], [0, 0, 0, 1, 0, 0, 1, 0, 1, 0, 0, 1, 0, 0, 0], [0, 0, 0, 1, 0, 1, 1, 0, 1, 1, 0, 1, 0, 0, 0]]
-    render(a_random_state)
-    ns = next_state(a_random_state)
-    time.sleep(1)
+def run_game(board: list, duration: int):
+    render(board)
+    ns = next_state(board)
+    time.sleep(duration)
     while True:
         render(ns)
-        time.sleep(0.3)
-        ne = next_state(ns)
+        time.sleep(duration)
+        ns = next_state(ns)
+
+
+
+if __name__=="__main__":
+    a_random_state = random_state(15, 25, 0.5)
+    toad_path = '/home/neul/Documents/CS/Python/Advance-Beginners/game_of_life/toads/toad.txt'
+    initial_state = load_board_state(toad_path)
+    #a_random_state = [[0, 0, 0, 0, 1, 1, 0, 0, 0, 1, 1, 0, 0, 0, 0], [0, 0, 0, 1, 0, 0, 1, 0, 1, 0, 0, 1, 0, 0, 0], [0, 0, 0, 1, 0, 1, 1, 0, 1, 1, 0, 1, 0, 0, 0], [0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0], [0, 0, 0, 0, 1, 0, 1, 0, 1, 0, 1, 0, 0, 0, 0], [0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0],[0, 0, 0, 0, 1, 1, 0, 0, 0, 1, 1, 0, 0, 0, 0,], [0, 0, 0, 1, 0, 0, 1, 0, 1, 0, 0, 1, 0, 0, 0], [0, 0, 0, 1, 0, 1, 1, 0, 1, 1, 0, 1, 0, 0, 0]]
+    run_game(initial_state, 1)

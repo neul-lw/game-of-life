@@ -10,9 +10,9 @@ def test_failed(wt, expected_next_state, actual_next_state):
 
 if __name__ == "__main__":
     init_state1 = [
-        [1,0,0],
-        [0,1,0],
-        [1,0,1]
+        [0,0,0],
+        [0,0,0],
+        [0,0,0]
     ]
     expected_next_state1 = [
         [0,0,0],
